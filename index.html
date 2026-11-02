@@ -51,7 +51,7 @@
     <div class="panel-body">
       <div class="controls">
         <div><label for="search">Search subjects</label><input id="search" type="search" placeholder="e.g. History, Economics, 10017" autocomplete="off"></div>
-        <div><label for="category">Category</label><select id="category"><option value="all">All categories</option><option value="DSC">DSC</option><option value="AEC">AEC</option><option value="MDC">MDC</option><option value="Compulsory">Compulsory</option><option value="SEC">SEC</option><option value="VAC">VAC</option><option value="Minor">Minor Subject</option></select></div>
+        <div><label for="category">Category</label><select id="category"><option value="all">All categories</option><option value="DSC">DSC</option><option value="AEC">AEC</option><option value="IDC">IDC</option><option value="Compulsory">Compulsory</option><option value="SEC">SEC</option><option value="VAC">VAC</option><option value="Minor">Minor Subject</option></select></div>
       </div>
       <div class="results-meta"><span id="result-count">Loading papers…</span><button class="btn btn-secondary" id="clear-search" type="button">Clear search</button></div>
       <div id="paper-list" class="paper-list"><div class="empty">Loading the dataset…</div></div>
@@ -86,7 +86,7 @@
 <script>
 (() => {
   const $ = id => document.getElementById(id);
-  const categoryNames = {DSC:'Discipline Specific Courses',AEC:'Ability Enhancement Courses',MDC:'Inter/Multi-disciplinary Courses',Compulsory:'Compulsory Punjabi/HCP/Urdu',SEC:'Skill Enhancement Courses',VAC:'Value Added Courses',Minor:'Minor Subject'};
+  const categoryNames = {DSC:'Discipline Specific Courses',AEC:'Ability Enhancement Courses',IDC:'Inter/Multi-disciplinary Courses',Compulsory:'Compulsory Punjabi/HCP/Urdu',SEC:'Skill Enhancement Courses',VAC:'Value Added Courses',Minor:'Minor Subject'};
   let papers = [], selected = new Set();
   const clean = v => String(v ?? '').trim();
   const dateObj = p => new Date(`${p.exam_date}T12:00:00`);
@@ -129,7 +129,7 @@
     const doc=new jsPDF({unit:'pt',format:[pageW,pageH],orientation:'landscape',compress:true});
     const px=v=>v*scale;
     const navy=[8,39,72], ink=[12,30,55], white=[255,255,255];
-    const fills={DSC:[225,216,246],AEC:[198,228,244],MDC:[225,216,246],SEC:[196,229,207],VAC:[187,226,219],Compulsory:[246,215,158],Minor:[235,224,201]};
+    const fills={DSC:[225,216,246],AEC:[198,228,244],IDC:[225,216,246],SEC:[196,229,207],VAC:[187,226,219],Compulsory:[246,215,158],Minor:[235,224,201]};
     const x=[51,378,575,760,1485];
     const tableTop=393, tableBottom=917, headH=56;
     const bodyTop=tableTop+headH, bodyHeight=tableBottom-bodyTop;
