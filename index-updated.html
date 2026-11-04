@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#10264b" />
+  <title>PU DateSheet Simplifier</title>
+  <meta name="description" content="Choose your Panjab University BA/BSc FYUGP Semester 1 papers and create a personal date sheet." />
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G43304G7ES"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-G43304G7ES');
+  </script>
+  <style>
+    :root{--navy:#10264b;--navy2:#173765;--ink:#18243a;--muted:#64748b;--line:#dbe3ef;--bg:#f4f7fb;--white:#fff;--accent:#d8e8ff;--green:#e5f7ed;--amber:#fff4d6;--shadow:0 12px 30px rgba(16,38,75,.08)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    header{background:linear-gradient(120deg,var(--navy),var(--navy2));color:#fff;padding:30px 20px 26px}
+    .wrap{max-width:1120px;margin:auto} .brand{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#c8dcff;font-weight:800}
+    h1{margin:8px 0;font-size:clamp(28px,4vw,42px);line-height:1.12;letter-spacing:-.03em} header p{margin:10px 0 0;color:#e1eaff;max-width:720px}
+    main{max-width:1120px;margin:24px auto;padding:0 16px 48px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:20px;align-items:start}
+    .panel{background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:18px 20px;border-bottom:1px solid var(--line)}.panel-head h2{margin:0;font-size:20px}.panel-head p{margin:4px 0 0;color:var(--muted);font-size:14px}.panel-body{padding:18px 20px}
+    label{display:block;font-size:13px;font-weight:750;color:#334155;margin:0 0 6px}.controls{display:grid;grid-template-columns:1fr 180px;gap:12px;margin-bottom:16px}
+    input[type=search],select{width:100%;padding:12px 13px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:var(--ink);font:inherit;outline:none}input:focus,select:focus{border-color:#4f7fc2;box-shadow:0 0 0 3px #dbeafe}
+    .results-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin:8px 0 10px}.paper-list{display:grid;gap:9px;max-height:540px;overflow:auto;padding-right:3px}
+    .paper{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;transition:border-color .15s,background .15s}.paper:hover{border-color:#8eadd8;background:#f8fbff}.paper input{margin-top:4px;accent-color:var(--navy);width:17px;height:17px;flex-shrink:0}.paper-title{font-weight:700;font-size:14px;line-height:1.4}.paper-sub{font-size:12px;color:var(--muted);margin-top:5px;display:flex;flex-wrap:wrap;gap:7px}.tag{display:inline-block;border-radius:999px;padding:2px 8px;background:#edf2f8;color:#40536f;font-size:11px;font-weight:750}.tag.old{background:var(--amber);color:#795600}.tag.flag{background:#fff0f0;color:#923c3c}
+    .btn{border:0;border-radius:10px;padding:11px 14px;font:700 14px/1.2 inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn-primary{background:var(--navy);color:white}.btn-primary:hover{background:#1d3e70}.btn-secondary{background:#eaf0f8;color:var(--navy)}.btn-danger{background:#fff0f0;color:#923c3c}.btn:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .empty{padding:24px 12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.selected-count{font-size:13px;color:var(--muted);font-weight:700}.selected-list{display:grid;gap:10px}.selected-item{border:1px solid var(--line);border-radius:12px;padding:12px}.selected-item-top{display:flex;justify-content:space-between;gap:10px}.selected-title{font-size:14px;font-weight:750}.selected-date{font-size:13px;color:var(--navy);font-weight:800;margin-top:5px}.remove{border:0;background:transparent;color:#9f3434;font-size:12px;font-weight:800;cursor:pointer;padding:2px 0;white-space:nowrap}.date-group{margin-top:18px}.date-group h3{font-size:14px;color:var(--navy);margin:0 0 8px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+    .notice{background:#fff8e7;border:1px solid #f2dda4;color:#71531b;padding:13px 14px;border-radius:12px;font-size:12px;margin-top:16px}.footnote{color:var(--muted);font-size:12px;margin-top:12px}.status{font-size:13px;color:#256344;margin-top:10px;min-height:20px}
+    footer{max-width:1120px;margin:-22px auto 0;padding:0 16px 30px;color:var(--muted);font-size:12px} .footer-links a{color:var(--navy)}
+    @media(max-width:800px){main{grid-template-columns:1fr}.paper-list{max-height:430px}.controls{grid-template-columns:1fr}.panel-head{padding:16px}.panel-body{padding:16px}}
+    @media print{header{padding:18px;background:#fff;color:#111;border-bottom:2px solid #111}header p,.brand{color:#333}main{display:block;margin:0;padding:0}.panel:first-child,.actions,.notice,.footnote,footer{display:none!important}.panel{box-shadow:none;border:0}.panel-head{padding:10px 0}.panel-body{padding:8px 0}.selected-item{break-inside:avoid}.remove{display:none}}
+
+    /* Support Our Mission */
+    .support-section {
+      width: 100%;
+      margin: 28px auto 20px;
+      padding: 35px 20px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 20px;
+      background: linear-gradient(135deg, #10264b, #193d70);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(16,38,75,.15);
+    }
+    .support-content { max-width: 650px; margin: auto; }
+    .support-icon { font-size: 32px; }
+    .support-section h2 { font-size: 26px; margin: 12px 0 5px; color: #fff; }
+    .support-section h3 {
+      font-size: 15px; color: #a9caff; letter-spacing: 2px; margin: 0 0 15px;
+    }
+    .support-section p {
+      font-size: 14px; line-height: 1.8; color: #e1eaf8; margin: 0 0 22px;
+    }
+    .support-instagram {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 12px 22px; border-radius: 50px; background: #fff; color: #c13584;
+      text-decoration: none; font-size: 14px; font-weight: 700; transition: .3s ease;
+    }
+    .support-instagram:hover {
+      transform: translateY(-3px); box-shadow: 0 7px 18px rgba(0,0,0,.2);
+    }
+    .support-instagram:focus-visible { outline: 3px solid #a9caff; outline-offset: 4px; }
+    .support-credit { margin-top: 22px; font-size: 12px; color: #c4d5ed; }
+    .support-credit strong { color: #fff; }
+    .site-footer { text-align: center; }
+    .footer-brand { font-size: 15px; font-weight: 800; color: var(--navy); letter-spacing: -.02em; }
+    .footer-credit { margin-top: 5px; color: var(--muted); }
+    .footer-credit strong { color: var(--ink); }
+    .footer-network { margin-top: 2px; color: var(--navy); font-weight: 700; }
+    .footer-bottom {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px;
+      margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11px;
+    }
+    .footer-bottom a { color: var(--navy); text-decoration: none; font-weight: 700; }
+    .footer-bottom a:hover { text-decoration: underline; }
+    @media(max-width:600px) { .footer-bottom { flex-direction: column; gap: 5px; } }
+
+    .btn-spinner {
+      width: 14px; height: 14px; border: 2px solid currentColor;
+      border-right-color: transparent; border-radius: 50%;
+      display: inline-block; animation: pdf-spin .7s linear infinite;
+    }
+    .btn-spinner[hidden] { display: none; }
+    @keyframes pdf-spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand">Panjab University · Student utility</div><h1>PU DateSheet Simplifier</h1><p>Choose the papers you actually have and build a clean, personal date sheet for BA/BSc FYUGP Semester 1.</p></div></header>
+<main>
+  <section class="panel" aria-labelledby="choose-heading">
+    <div class="panel-head"><h2 id="choose-heading">1. Find your papers</h2><p>Search by subject name or code, then select each paper that applies to you.</p></div>
+    <div class="panel-body">
+      <div class="controls">
+        <div><label for="search">Search subjects</label><input id="search" type="search" placeholder="e.g. History, Economics, 10017" autocomplete="off"></div>
+        <div><label for="category">Category</label><select id="category"><option value="all">All categories</option><option value="DSC">DSC</option><option value="AEC">AEC</option><option value="MDC">MDC</option><option value="Compulsory">Compulsory</option><option value="SEC">SEC</option><option value="VAC">VAC</option><option value="Minor">Minor Subject</option></select></div>
+      </div>
+      <div class="results-meta"><span id="result-count">Loading papers…</span><button class="btn btn-secondary" id="clear-search" type="button">Clear search</button></div>
+      <div id="paper-list" class="paper-list"><div class="empty">Loading the dataset…</div></div>
+      <div class="actions"><button class="btn btn-secondary" id="select-visible" type="button">Select visible</button><button class="btn btn-secondary" id="clear-selection" type="button">Clear selection</button></div>
+      <div id="load-status" class="status" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+  <section class="panel" aria-labelledby="my-heading">
+    <div class="panel-head"><h2 id="my-heading">2. My date sheet</h2><p>Your selected papers, sorted by examination date.</p></div>
+    <div class="panel-body">
+      <div class="results-meta"><span class="selected-count" id="selected-count">0 papers selected</span><span>Exam time: 9:30 AM–12:30 PM</span></div>
+      <div id="selected-list"><div class="empty">Select papers on the left to build your date sheet.</div></div>
+      <div class="actions"><button class="btn btn-primary" id="download-pdf" type="button" disabled>
+        <span class="btn-spinner" id="pdf-spinner" aria-hidden="true" hidden></span>
+        <span id="pdf-button-text">Download designed PDF</span>
+      </button><button class="btn btn-secondary" id="print-sheet" type="button" disabled>Print / Save PDF</button><button class="btn btn-secondary" id="download-csv" type="button">Download source CSV</button></div>
+      <div class="notice"><strong>Important:</strong> This is a student-organizing tool based on an extracted copy of the university date sheet, not an official university document. Check your admit card and the <a href="https://puchd.ac.in/" target="_blank" rel="noopener">Panjab University website</a> for corrections. Select only papers applicable to your course and syllabus. Old-syllabus papers are marked.</div>
+      <p class="footnote">Paper titles preserve the wording of the source datesheet where possible. Internal data-review markers are hidden from students.</p>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="footer-brand">PU DateSheet Simplifier</div>
+  <div class="footer-credit">Designed &amp; Developed by <strong>Akash</strong></div>
+  <div class="footer-network">Study Network</div>
+
+  <!-- Support Our Mission -->
+  <section class="support-section" aria-labelledby="support-heading">
+    <div class="support-content">
+      <span class="support-icon" aria-hidden="true">💙</span>
+      <h2 id="support-heading">Support Our Mission</h2>
+      <h3>Learn. Share. Grow.</h3>
+      <p>
+        If you find Study Network helpful, support our mission by following us
+        on Instagram. Your support motivates us to keep creating free
+        educational resources.
+      </p>
+      <a
+        href="https://www.instagram.com/akwebdev2025/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="support-instagram"
+        aria-label="Follow AK Web Studio on Instagram"
+      >📸 Follow @akwebdev2025</a>
+      <div class="support-credit">Created with ❤️ by <strong>AK Web Studio</strong></div>
+    </div>
+  </section>
+
+  <div class="footer-bottom">
+    <span>© 2026 Study Network. All rights reserved.</span>
+    <span>An independent project. Not affiliated with Panjab University.</span>
+    <a href="./dataset.csv" download>Dataset CSV</a>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const categoryNames = {DSC:'Discipline Specific Courses',AEC:'Ability Enhancement Courses',MDC:'Inter/Multi-disciplinary Courses',Compulsory:'Compulsory Punjabi/HCP/Urdu',SEC:'Skill Enhancement Courses',VAC:'Value Added Courses',Minor:'Minor Subject'};
+  let papers = [], selected = new Set();
+  const clean = v => String(v ?? '').trim();
+  const dateObj = p => new Date(`${p.exam_date}T12:00:00`);
+  const dateLabel = p => dateObj(p).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric',weekday:'long'});
+  const sorted = list => [...list].sort((a,b)=>a.exam_date.localeCompare(b.exam_date)||a.title.localeCompare(b.title));
+  const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function visiblePapers(){
+    const q=$('search').value.trim().toLowerCase(), cat=$('category').value;
+    return papers.filter(p=>(cat==='all'||p.category===cat)&&(!q||`${p.code} ${p.title} ${p.category}`.toLowerCase().includes(q)));
+  }
+  function renderPapers(){
+    const list=visiblePapers(); $('result-count').textContent=`${list.length} paper${list.length===1?'':'s'} shown`;
+    if(!list.length){$('paper-list').innerHTML='<div class="empty">No papers match. Try another search or category.</div>';return;}
+    $('paper-list').innerHTML=list.map(p=>{
+      const flags=clean(p.validation_flags), old=clean(p.old_syllabus).toLowerCase()==='yes'||/old/i.test(p.title);
+      return `<label class="paper"><input type="checkbox" data-code="${esc(p.code)}" ${selected.has(p.code)?'checked':''}><span><span class="paper-title">${esc(p.title)}</span><span class="paper-sub"><span class="tag">${esc(p.category)}</span><span class="tag">Code ${esc(p.code)}</span>${old?'<span class="tag old">Old syllabus</span>':''}<span>${esc(dateLabel(p))}</span></span></span></label>`;
+    }).join('');
+  }
+  function renderSelected(){
+    const list=sorted(papers.filter(p=>selected.has(p.code))); $('selected-count').textContent=`${list.length} paper${list.length===1?'':'s'} selected`;
+    $('download-pdf').disabled=!list.length || $('download-pdf').dataset.loading==='true'; $('print-sheet').disabled=!list.length;
+    if(!list.length){$('selected-list').innerHTML='<div class="empty">Select papers on the left to build your date sheet.</div>';return;}
+    const groups={}; list.forEach(p=>(groups[p.exam_date]??=[]).push(p));
+    $('selected-list').innerHTML=Object.entries(groups).map(([date,items])=>{
+      const first=items[0]; return `<div class="date-group"><h3>${esc(dateLabel(first))} · ${esc(first.exam_time||'9:30 AM–12:30 PM')}</h3>${items.map(p=>`<div class="selected-item"><div class="selected-item-top"><div><div class="selected-title">${esc(p.title)}</div><div class="paper-sub"><span class="tag">${esc(p.category)}</span><span class="tag">Code ${esc(p.code)}</span>${(clean(p.old_syllabus).toLowerCase()==='yes'||/old/i.test(p.title))?'<span class="tag old">Old syllabus</span>':''}</div></div><button class="remove" type="button" data-remove="${esc(p.code)}" aria-label="Remove ${esc(p.code)}">Remove</button></div></div>`).join('')}</div>`;
+    }).join('');
+  }
+  function update(){renderPapers();renderSelected();}
+  function csvDownload(){const a=document.createElement('a');a.href='./dataset.csv';a.download='pu_datesheet_simplifier_dataset.csv';document.body.appendChild(a);a.click();a.remove();}
+  async function pdfDownload(){
+    const list=sorted(papers.filter(p=>selected.has(p.code)));
+    if(!list.length)return false;
+    if(!window.jspdf?.jsPDF){window.print();return false;}
+    const template=new Image();
+    template.src='./assets/pu-template.jpg';
+    try { await template.decode(); } catch(e) { alert('The PU design template could not load. Please keep assets/pu-template.jpg in the same repository folder.'); return false; }
+    const {jsPDF}=window.jspdf;
+    // The reference artwork is 1536 × 1024. A matching 3:2 page keeps its proportions exact.
+    const scale=0.5625, pageW=864, pageH=576;
+    const doc=new jsPDF({unit:'pt',format:[pageW,pageH],orientation:'landscape',compress:true});
+    const px=v=>v*scale;
+    const navy=[8,39,72], ink=[12,30,55], white=[255,255,255];
+    const fills={DSC:[225,216,246],AEC:[198,228,244],MDC:[225,216,246],SEC:[196,229,207],VAC:[187,226,219],Compulsory:[246,215,158],Minor:[235,224,201]};
+    const x=[51,378,575,760,1485];
+    const tableTop=393, tableBottom=917, headH=56;
+    const bodyTop=tableTop+headH, bodyHeight=tableBottom-bodyTop;
+    const titleLines=(p)=>{
+      const title=p.title+(clean(p.old_syllabus).toLowerCase()==='yes'&&!/old syllabus/i.test(p.title)?' (Old syllabus)':'');
+      doc.setFont('times','normal');doc.setFontSize(px(20));
+      return doc.splitTextToSize(title,px(x[4]-x[3]-42));
+    };
+    const rowHeights=list.map(p=>Math.max(57,titleLines(p).length*px(22)+px(12)));
+    // Keep the original poster's table proportions. Longer selections continue on matching pages.
+    const chunks=[];let chunk=[],used=0;
+    for(let i=0;i<list.length;i++){
+      let h=rowHeights[i];
+      if(chunk.length && used+h>bodyHeight){chunks.push(chunk);chunk=[];used=0;}
+      if(h>bodyHeight) h=bodyHeight;
+      chunk.push({paper:list[i],height:h});used+=h;
+    }
+    if(chunk.length)chunks.push(chunk);
+    chunks.forEach((rows,pageIndex)=>{
+      if(pageIndex)doc.addPage([pageW,pageH],'landscape');
+      doc.addImage(template,'JPEG',0,0,pageW,pageH,undefined,'FAST');
+      // Mask only the sample table; all surrounding artwork remains the user's exact image.
+      doc.setFillColor(250,249,246);doc.rect(px(50),px(tableTop),px(1436),px(tableBottom-tableTop),'F');
+      // Table heading band and column separators match the reference image.
+      doc.setFillColor(...navy);doc.roundedRect(px(51),px(tableTop),px(1434),px(headH),px(14),px(14),'F');
+      doc.rect(px(51),px(tableTop+headH-12),px(1434),px(12),'F');
+      doc.setTextColor(...white);doc.setFont('times','bold');doc.setFontSize(px(23));
+      const headers=['Exam Date','Category','Code','Subject / Paper'];
+      headers.forEach((t,i)=>doc.text(t,px(x[i]+(i===0?30:i===1?66:i===2?70:22)),px(tableTop+36)));
+      let y=bodyTop;
+      rows.forEach((entry,index)=>{
+        const p=entry.paper,h=entry.height;
+        doc.setFillColor(...(index%2===0?[250,249,246]:[226,235,244]));doc.rect(px(51),px(y),px(1434),px(h),'F');
+        // category pill
+        const c=fills[p.category]||[225,232,240], pillW=Math.min(210,Math.max(100,p.category.length*15+36));
+        doc.setFillColor(...c);doc.roundedRect(px((x[1]+x[2]-pillW)/2),px(y+h/2-18),px(pillW),px(36),px(18),px(18),'F');
+        // date on two balanced lines, as in the sample poster
+        const d=new Date(`${p.exam_date}T12:00:00`);
+        const date1=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric'});
+        const date2=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+        doc.setTextColor(...ink);doc.setFont('times','bold');doc.setFontSize(px(21));
+        doc.text(date1,px(x[0]+30),px(y+h/2-1));doc.setFont('times','normal');doc.setFontSize(px(19));doc.text(date2,px(x[0]+30),px(y+h/2+21));
+        doc.setFont('times','bold');doc.setFontSize(px(22));doc.text(p.category,px((x[1]+x[2])/2),px(y+h/2+8),{align:'center'});
+        doc.setFont('times','normal');doc.setFontSize(px(22));doc.text(String(p.code),px((x[2]+x[3])/2),px(y+h/2+8),{align:'center'});
+        doc.setFont('times','normal');doc.setFontSize(px(20));
+        const lines=titleLines(p);const lineH=px(22);const textY=px(y+h/2)-((lines.length-1)*lineH/2)+px(7);
+        doc.text(lines,px(x[3]+22),textY,{lineHeightFactor:1.0});
+        y+=h;
+      });
+      // Fine grid lines and rounded outer border, retaining the exact poster's column geometry.
+      doc.setDrawColor(157,166,176);doc.setLineWidth(.55);
+      [x[1],x[2],x[3]].forEach(v=>doc.line(px(v),px(tableTop),px(v),px(y)));
+      let yy=bodyTop;rows.forEach(r=>{yy+=r.height;doc.line(px(51),px(yy),px(1485),px(yy));});
+      doc.roundedRect(px(51),px(tableTop),px(1434),px(y-tableTop),px(15),px(15),'S');
+    });
+    doc.save('my-pu-personal-datesheet.pdf');
+    return true;
+  }
+
+  function trackEvent(eventName, params={}) {
+    if(typeof window.gtag==='function') window.gtag('event', eventName, params);
+  }
+
+  async function handlePdfDownload() {
+    const button=$('download-pdf');
+    if(button.dataset.loading==='true') return;
+    const list=sorted(papers.filter(p=>selected.has(p.code)));
+    if(!list.length) return;
+
+    button.dataset.loading='true';
+    button.disabled=true;
+    $('pdf-spinner').hidden=false;
+    $('pdf-button-text').textContent='Generating datesheet...';
+
+    try {
+      const generated=await pdfDownload();
+      if(generated) {
+        const categories=[...new Set(list.map(p=>p.category))];
+        trackEvent('datesheet_generated', {
+          selected_paper_count:list.length,
+          categories:categories.join(',')
+        });
+        trackEvent('pdf_download', {
+          file_name:'my-pu-personal-datesheet.pdf',
+          selected_paper_count:list.length
+        });
+      }
+    } catch(error) {
+      console.error('PDF generation failed:', error);
+      alert('Something went wrong while generating your datesheet. Please try again.');
+    } finally {
+      button.dataset.loading='false';
+      $('pdf-spinner').hidden=true;
+      $('pdf-button-text').textContent='Download designed PDF';
+      button.disabled=!selected.size;
+    }
+  }
+
+  $('search').addEventListener('input',renderPapers);$('category').addEventListener('change',renderPapers);
+  $('clear-search').addEventListener('click',()=>{$('search').value='';$('category').value='all';renderPapers();});
+  $('paper-list').addEventListener('change',e=>{const cb=e.target.closest('input[data-code]');if(!cb)return;cb.checked?selected.add(cb.dataset.code):selected.delete(cb.dataset.code);renderSelected();});
+  $('selected-list').addEventListener('click',e=>{const b=e.target.closest('[data-remove]');if(!b)return;selected.delete(b.dataset.remove);update();});
+  $('select-visible').addEventListener('click',()=>{visiblePapers().forEach(p=>selected.add(p.code));update();});
+  $('clear-selection').addEventListener('click',()=>{selected.clear();update();});$('download-csv').addEventListener('click',csvDownload);$('download-pdf').addEventListener('click',handlePdfDownload);$('print-sheet').addEventListener('click',()=>window.print());
+  Papa.parse('./dataset.csv',{download:true,header:true,skipEmptyLines:true,complete:r=>{
+    papers=r.data.map(p=>({...p,code:clean(p.code),title:clean(p.title),category:clean(p.category),exam_date:clean(p.exam_date),weekday:clean(p.weekday),exam_time:clean(p.exam_time),old_syllabus:clean(p.old_syllabus),validation_flags:clean(p.validation_flags)})).filter(p=>p.code&&p.title&&p.exam_date);
+    $('load-status').textContent=`Loaded ${papers.length} papers across ${new Set(papers.map(p=>p.category)).size} categories.`;update();
+  },error:()=>{$('paper-list').innerHTML='<div class="empty">Could not load dataset.csv. Keep index.html and dataset.csv in the same folder and run the site through GitHub Pages or a local web server.</div>'; $('load-status').textContent='Dataset loading failed.';}});
+})();
+</script>
+</body>
+</html>
